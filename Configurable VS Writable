@@ -1,1 +1,59 @@
 
+configurable:  
+writable: 
+
+var foo = {};
+
+case 1:  
+
+    Object.defineProperty(foo, 'bar', {
+        value: 1,
+        configurable: true,
+        writable: false
+    }) // {bar: 1}
+
+    foo.bar=2 // {bar: 1}
+
+    Object.defineProperty(foo, 'bar', {
+        value: 2,
+        configurable: true,
+        writable: false
+     })   // {bar: 2}
+     
+case 2: 新开的，和case1无关
+    Object.defineProperty(foo, 'bar', {
+        value: 1,
+        configurable: false,
+        writable: true
+    }) // {bar: 1}
+    foo.bar = 2  // {bar: 2}
+    Object.defineProperty(foo, 'bar', {
+        value: 3,
+        configurable: false,
+        writable: true
+    })  // {bar: 3}
+    
+ case 3: 接着case 2执行
+    Object.defineProperty(foo, 'bar', {
+        value: 3,
+        configurable: false,
+        writable: true,
+        enumerable: true
+    })  // Uncaught TypeError: Cannot redefine property: bar
+    
+case 4: 接着case 3执行
+    Object.defineProperty(foo, 'bar', {
+        value: 3,
+        configurable: false,
+        writable: false,
+    })
+    Object.defineProperty(foo, 'bar', {
+        value: 4,
+        configurable: false,
+        writable: false,
+    })   // Uncaught TypeError: Cannot redefine property: bar
+    
+所以，configurable控制所有的属性描述符的更改，writable只控制value; 
+configurable控制的是Object.defineProperty途径的修改，writable控制的是对象实例的直接修改
+
+https://stackoverflow.com/questions/23590502/difference-between-configurable-and-writable-attributes-of-an-object
