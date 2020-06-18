@@ -1,0 +1,19 @@
+属性描述符：value configarable writable enumerable ...
+我在这里将以上属性描述符分为两类： value（一类）和其它（二类）
+
+1. Object.preventExtensions()
+    不能再添加新的属性
+
+2. Object.seal()
+  不能添加新的属性
+  不能删除已有属性
+  不能修改已有属性的二类描述符
+  但可以修改已有属性的一类描述符
+
+3. Object.freeze()
+   不能添加新的属性
+   不能删除已有属性
+   不能修改已有属性的二类描述符(其它)
+   不能修改已有属性的一类描述符(value)
+   
+从上到下，一级比一级严格
